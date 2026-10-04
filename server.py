@@ -31,7 +31,8 @@ def add_todo(
     tags: Optional[List[str]] = None,
     owner: Optional[str] = None,
     duration: Optional[str] = None,
-    deadline: Optional[str] = None
+    deadline: Optional[str] = None,
+    time_spent: Optional[str] = None
 ) -> str:
     """
     Ajoute une tâche formatée dans une rubrique.
@@ -43,6 +44,7 @@ def add_todo(
         owner: Responsable (ex: 'me', 'Olive')
         duration: Durée (ex: '1d', '3h', '1m')
         deadline: Date au format YYYY-MM-DD
+        time_spent: Temps passé (ex: '1h', '30m') ou pourcentage de temp passé (ex: '50%')
     """
     # Construction de la ligne selon ton formalisme
     parts = [f"- [ ] {task}"]
@@ -57,6 +59,10 @@ def add_todo(
         parts.append(d)
     if deadline:
         parts.append(deadline)
+    if time_spent:
+        # On vérifie si le $ est déjà là, sinon on l'ajoute
+        ts = time_spent if time_spent.startswith("$") else f"${time_spent}"
+        parts.append(ts)
 
     new_line = " ".join(parts) + "\n"
     
